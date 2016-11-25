@@ -57,7 +57,7 @@ public class RewriteInjectSparkLoopCheckpointing extends StatementBlockRewriteRu
 	{
 		ArrayList<StatementBlock> ret = new ArrayList<StatementBlock>();
 		
-		if( !OptimizerUtils.isSparkExecutionMode() ) 
+		if( !OptimizerUtils.isSparkExecutionMode() && !OptimizerUtils.isFlinkExecutionMode() )
 		{
 			ret.add(sb); // nothing to do here
 			return ret; //return original statement block

@@ -19,15 +19,10 @@
 
 package org.apache.sysml.runtime.instructions;
 
+import org.apache.sysml.lops.Checkpoint;
 import org.apache.sysml.runtime.DMLRuntimeException;
-import org.apache.sysml.runtime.instructions.flink.CSVReblockFLInstruction;
-import org.apache.sysml.runtime.instructions.flink.FLInstruction;
+import org.apache.sysml.runtime.instructions.flink.*;
 import org.apache.sysml.runtime.instructions.flink.FLInstruction.FLINSTRUCTION_TYPE;
-import org.apache.sysml.runtime.instructions.flink.MapmmFLInstruction;
-import org.apache.sysml.runtime.instructions.flink.ReblockFLInstruction;
-import org.apache.sysml.runtime.instructions.flink.TsmmFLInstruction;
-import org.apache.sysml.runtime.instructions.flink.WriteFLInstruction;
-import org.apache.sysml.runtime.instructions.flink.MapmmChainFLInstruction;
 
 import java.util.HashMap;
 
@@ -45,6 +40,8 @@ public class FLInstructionParser extends InstructionParser {
 		// REBLOCK Instruction Opcodes
 		String2FLInstructionType.put("rblk", FLINSTRUCTION_TYPE.Reblock);
 		String2FLInstructionType.put("csvrblk", FLINSTRUCTION_TYPE.CSVReblock);
+
+		String2FLInstructionType.put(Checkpoint.OPCODE, FLINSTRUCTION_TYPE.CHECKPOINT);
 
 		String2FLInstructionType.put("write", FLINSTRUCTION_TYPE.Write);
 	}
@@ -84,6 +81,9 @@ public class FLInstructionParser extends InstructionParser {
 				return CSVReblockFLInstruction.parseInstruction(str);
 			case Write:
 				return WriteFLInstruction.parseInstruction(str);
+
+			case CHECKPOINT:
+				return CheckpointFLInstruction.parseInstruction(str);
 
 			case INVALID:
 			default:

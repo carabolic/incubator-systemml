@@ -21,6 +21,7 @@ package org.apache.sysml.lops;
 
 import org.apache.spark.storage.StorageLevel;
 
+import org.apache.sysml.hops.OptimizerUtils;
 import org.apache.sysml.lops.LopProperties.ExecLocation;
 import org.apache.sysml.lops.LopProperties.ExecType;
 import org.apache.sysml.lops.compile.JobType;
@@ -75,7 +76,10 @@ public class Checkpoint extends Lop
 		boolean definesMRJob = false;
 		
 		lps.addCompatibility(JobType.INVALID);
-		lps.setProperties( inputs, ExecType.SPARK, ExecLocation.ControlProgram, breaksAlignment, aligner, definesMRJob );
+		// FIXME
+		// retrieve correct exec type, i.e. Spark or Flink and nothing else (?)
+		System.out.println("OptimizerUtils.getRemoteExecType() is " + OptimizerUtils.getRemoteExecType());
+		lps.setProperties( inputs, OptimizerUtils.getRemoteExecType(), ExecLocation.ControlProgram, breaksAlignment, aligner, definesMRJob );
 	}
 
 	public StorageLevel getStorageLevel()
@@ -98,7 +102,7 @@ public class Checkpoint extends Lop
 		throws LopsException 
 	{
 		//valid execution type
-		if(getExecType() != ExecType.SPARK) {
+		if(getExecType() != ExecType.SPARK && getExecType() != ExecType.FLINK) {
 			throw new LopsException("Wrong execution type for Checkpoint.getInstructions (expected: SPARK, found: "+getExecType()+").");
 		}
 		

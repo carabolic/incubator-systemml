@@ -30,7 +30,7 @@ import org.apache.sysml.utils.Statistics;
 public abstract class FLInstruction extends Instruction {
 
 	public enum FLINSTRUCTION_TYPE {
-		TSMM, MAPMM, MAPMMCHAIN, Reblock, CSVReblock, Write, INVALID
+		TSMM, MAPMM, MAPMMCHAIN, Reblock, CSVReblock, Write, CHECKPOINT, INVALID
 	}
 
 	protected FLINSTRUCTION_TYPE _fltype;

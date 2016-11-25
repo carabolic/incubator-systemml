@@ -40,7 +40,7 @@ public class RewriteInjectSparkPReadCheckpointing extends HopRewriteRule
 	public ArrayList<Hop> rewriteHopDAGs(ArrayList<Hop> roots, ProgramRewriteStatus state)
 		throws HopsException
 	{
-		if(  !OptimizerUtils.isSparkExecutionMode()  ) 
+		if(  !OptimizerUtils.isSparkExecutionMode() && !OptimizerUtils.isFlinkExecutionMode()  )
 			return roots;
 		
 		if( roots == null )
